@@ -19,4 +19,4 @@ cd client
 npm install
 npm run dev      # http://localhost:5173
 ```
-[Live Demo](https://imovies-git-main-srishtishubh01.vercel.app)
+[Live Demo](https://imovies-five.vercel.app)
