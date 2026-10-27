@@ -19,4 +19,4 @@ cd client
 npm install
 npm run dev      # http://localhost:5173
 ```
-Open imovies-git-main-srishtishubh01.vercel.app, register an account, pick a movie, a showtime and your seats.
+[Live Demo](https://imovies-git-main-srishtishubh01.vercel.app)
