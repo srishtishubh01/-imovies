@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://imovies-2-0x3u.onrender.com/api/:path*" },
+    { "source": "/api/:path*", "destination": "https://imovies-3-7zvv.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
