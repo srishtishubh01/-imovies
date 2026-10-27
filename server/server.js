@@ -9,6 +9,16 @@ const { User, Movie, Showtime, Booking } = require('./models');
 const app = express();
 app.use(cors(), express.json());
 
+// Serverless: connect to MongoDB once and reuse the connection
+let ready;
+app.use((req, res, next) => {
+  ready = ready || connect();
+  ready.then(() => next()).catch((e) => {
+    ready = null;
+    res.status(500).json({ message: e.message });
+  });
+});
+
 const sign = (u) => jwt.sign({ id: u._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 const safe = (u) => ({ id: u._id, name: u.name, email: u.email });
 const wrap = (fn) => (req, res) => fn(req, res).catch((e) => res.status(500).json({ message: e.message }));
@@ -95,5 +105,11 @@ app.delete('/api/bookings/:id', auth, wrap(async (req, res) => {
   res.json(b);
 }));
 
-const PORT = process.env.PORT || 5000;
-connect().then(() => app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`)));
+// Local / Render: start a normal server. On Vercel the app is exported instead.
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  ready = ready || connect();
+  ready.then(() => app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`)));
+}
+
+module.exports = app;
